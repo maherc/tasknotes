@@ -37,6 +37,7 @@ import { KanbanView } from './views/KanbanView';
 import { TaskCreationModal } from './modals/TaskCreationModal';
 import { TaskEditModal } from './modals/TaskEditModal';
 import { TaskSelectorModal } from './modals/TaskSelectorModal';
+import { TimeTrackingModal, TimeTrackingOptions } from './modals/TimeTrackingModal';
 import { PomodoroService } from './services/PomodoroService';
 import { 
 	formatTime,
@@ -1037,6 +1038,14 @@ export default class TaskNotesPlugin extends Plugin {
 				}
 			}
 		});
+
+		this.addCommand({
+			id: 'open-time-tracking-modal',
+			name: 'Open time tracking',
+			callback: async () => {
+				await this.openTimeTrackingModal();
+				}
+		});
 		
 		// Cache management commands
 		this.addCommand({
@@ -1280,6 +1289,10 @@ private injectCustomStyles(): void {
 		new TaskCreationModal(this.app, this, { prePopulatedValues }).open();
 	}
 
+	openTimeTrackingModal(timeTrackingOptions?: TimeTrackingOptions) {
+		new TimeTrackingModal(this.app, this, timeTrackingOptions).open();
+	}
+
 	/**
 	 * Apply a filter to show subtasks of a project
 	 */
@@ -1378,7 +1391,7 @@ private injectCustomStyles(): void {
 	 */
 	async startTimeTracking(task: TaskInfo, description?: string): Promise<TaskInfo> {
 		try {
-			const updatedTask = await this.taskService.startTimeTracking(task);
+			const updatedTask = await this.taskService.startTimeTracking(task, description);
 			new Notice('Time tracking started');
 			
 			// Update status bar after a small delay to ensure task state is persisted

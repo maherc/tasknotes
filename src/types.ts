@@ -330,6 +330,7 @@ export interface PomodoroTimePeriod {
 export interface PomodoroSession {
 	id: string;
 	taskPath?: string; // optional, can run timer without task
+	timeTrackingDescription?: string; // optional, only used with task
 	startTime: string; // ISO datetime when session was first created
 	endTime?: string; // ISO datetime when session completed/interrupted
 	plannedDuration: number; // planned duration in minutes
@@ -353,6 +354,7 @@ export interface PomodoroSessionHistory {
 	plannedDuration: number; // originally planned duration in minutes
 	type: 'work' | 'short-break' | 'long-break';
 	taskPath?: string; // optional task association
+	timeTrackingDescription?: string; // optional, only used with task
 	completed: boolean; // true if session finished normally, false if interrupted
 	activePeriods: PomodoroTimePeriod[]; // Array of active timing periods (excludes pauses)
 }

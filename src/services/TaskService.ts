@@ -431,7 +431,7 @@ export class TaskService {
     /**
      * Start time tracking for a task
      */
-    async startTimeTracking(task: TaskInfo): Promise<TaskInfo> {
+    async startTimeTracking(task: TaskInfo, description?: string): Promise<TaskInfo> {
         const file = this.plugin.app.vault.getAbstractFileByPath(task.path);
         if (!(file instanceof TFile)) {
             throw new Error(`Cannot find task file: ${task.path}`);
@@ -453,7 +453,8 @@ export class TaskService {
         
         const newEntry: TimeEntry = {
             startTime: getCurrentTimestamp(),
-            description: 'Work session'
+            // empty descriptions are not allowed unless set as default
+            description: description ? description : this.plugin.settings.defaultTimeTrackingDescription
         };
         updatedTask.timeEntries = [...updatedTask.timeEntries, newEntry];
 

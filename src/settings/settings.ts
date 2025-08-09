@@ -54,6 +54,7 @@ export interface TaskNotesSettings {
 	// Time tracking settings
 	autoStopTimeTrackingOnComplete: boolean;
 	autoStopTimeTrackingNotification: boolean;
+	defaultTimeTrackingDescription: string;
 	// Project subtasks widget settings
 	showProjectSubtasks: boolean;
 	// Overdue behavior settings
@@ -301,6 +302,7 @@ export const DEFAULT_SETTINGS: TaskNotesSettings = {
 	// Time tracking defaults
 	autoStopTimeTrackingOnComplete: true,
 	autoStopTimeTrackingNotification: false,
+	defaultTimeTrackingDescription: 'Work session',
 	// Project subtasks widget defaults
 	showProjectSubtasks: true,
 	// Overdue behavior defaults
@@ -2312,6 +2314,20 @@ export class TaskNotesSettingTab extends PluginSettingTab {
 					this.plugin.settings.autoStopTimeTrackingNotification = value;
 					await this.plugin.saveSettings();
 				}));
+
+		new Setting(container)
+			.setName('Default time tracking description')
+			.setDesc('Default description text for new time tracking entries')
+			.addText(text => {
+				text.inputEl.setAttribute('aria-label', 'Default description for new time tracking entries');
+				return text
+					.setPlaceholder('')
+					.setValue(this.plugin.settings.defaultTimeTrackingDescription)
+					.onChange(async (value) => {
+						this.plugin.settings.defaultTimeTrackingDescription = value;
+						await this.plugin.saveSettings();
+					});
+			});
 	}
 
 
