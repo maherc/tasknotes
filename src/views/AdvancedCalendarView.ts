@@ -866,7 +866,7 @@ export class AdvancedCalendarView extends ItemView {
         const startDate = task.scheduled;
         
         let endDate: string | undefined;
-        if (hasTime && task.timeEstimate) {
+        if (task.timeEstimate) {
             // Calculate end time based on time estimate
             // Use parseDateToLocal for display purposes since this has time
             const start = parseDateToLocal(startDate);
@@ -1084,7 +1084,7 @@ export class AdvancedCalendarView extends ItemView {
         
         // Calculate end time if time estimate is available
         let endDate: string | undefined;
-        if (hasTime && task.timeEstimate) {
+        if (task.timeEstimate) {
             const start = parseDateToLocal(eventStart);
             const end = new Date(start.getTime() + (task.timeEstimate * 60 * 1000));
             endDate = format(end, "yyyy-MM-dd'T'HH:mm");
@@ -1126,7 +1126,7 @@ export class AdvancedCalendarView extends ItemView {
         
         // Calculate end time if time estimate is available
         let endDate: string | undefined;
-        if (hasTime && task.timeEstimate) {
+        if (task.timeEstimate) {
             const start = parseDateToLocal(eventStart);
             const end = new Date(start.getTime() + (task.timeEstimate * 60 * 1000));
             endDate = format(end, "yyyy-MM-dd'T'HH:mm");
